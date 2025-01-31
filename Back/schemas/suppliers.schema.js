@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const id = Joi.number().integer();
 const name = Joi.string().min(3).max(50);
-const RUC = Joi.string().min(10).max(11).pattern(/^\d+$/);  // Asegura que el RUC sea numérico
+const RUC = Joi.string().min(10).max(11).pattern(/^\d+$/);
 const direccion = Joi.string().min(10).max(100);
 const estado = Joi.string().valid('activo', 'inactivo');
 

@@ -9,10 +9,7 @@ class SuppliersService {
   async create(data) {
     const client = await getConnection();
     try {
-      // Destructuramos los datos de entrada
       const { name, RUC, direccion, estado } = data;
-
-      // Verificamos si el RUC ya existe (ya que es único)
       const existingSupplier = await client.query(
         'SELECT * FROM suppliers WHERE RUC = $1',
         [RUC]
@@ -20,8 +17,6 @@ class SuppliersService {
       if (existingSupplier.rows.length > 0) {
         throw boom.conflict('El RUC ya existe');
       }
-
-      // Insertamos el nuevo proveedor
       const res = await client.query(
         'INSERT INTO suppliers (name, RUC, direccion, estado) VALUES ($1, $2, $3, $4) RETURNING *',
         [name, RUC, direccion, estado]
@@ -60,7 +55,6 @@ class SuppliersService {
   async update(id, changes) {
     const client = await getConnection();
     try {
-      // Verificamos si el proveedor existe
       const existingSupplier = await client.query(
         'SELECT * FROM suppliers WHERE supplier_id = $1',
         [id]
@@ -68,8 +62,6 @@ class SuppliersService {
       if (existingSupplier.rows.length === 0) {
         throw boom.notFound('Proveedor no encontrado para actualizar');
       }
-
-      // Actualizamos el proveedor
       const { name, RUC, direccion, estado } = changes;
       const query = `
         UPDATE suppliers
